@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Vážená(ý) pán(pani) {{user.first_name}} {{user.last_name}}.
+
+Aby mohla byť registrácia úspešne dokončená, je potrebné urobiť posledný krok. Váš súhlas s registráciou potvrďte kliknutím na odkaz.
+http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+Ak ste tento e-mail obdržali bez toho, že by ste sa chceli v {{domain}} zaregistrovať, prosíme o prepáčenie. Je možné, že sa niektorý z iných užívateľov zmýlil.
+
+{% endautoescape %}

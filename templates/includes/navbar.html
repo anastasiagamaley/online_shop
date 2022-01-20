@@ -3,21 +3,28 @@
 <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
 <div class="container">
 
-  <div class="col text-center">
+
   <button class="navbar-toggler center" type="button" data-toggle="collapse" data-target="#navbarTop4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  </div>
+
   <div class="collapse navbar-collapse" id="navbarTop4">
     <ul class="navbar-nav mr-auto">
     <li><a href="#" class="nav-link"> <i class="fa fa-envelope"></i> Email </a></li>
     <li><a href="#" class="nav-link"> <i class="fa fa-phone"></i> Call us </a></li>
   </ul>
+  {% if user.id is None %}
   <ul class="navbar-nav ml-auto">
-      <li><a class="nav-link" href="./signin.html">Prihlásenie</a></li>
-      <li><a class="nav-link" href="./register.html">Registrácia</a></li>
+      <li><a class="nav-link" href="{% url 'login' %}">Prihlásenie</a></li>
+      <li><a class="nav-link" href="{% url 'register' %}">Registrácia</a></li>
   </ul>
+  {% else %}
+  <ul class="navbar-nav ml-auto">
+      <li><a class="nav-link" href="{% url 'dashboard'%}">Dashbord</a></li>
+      <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+  </ul>
+  {% endif %}
     </div>
   </div><!-- list-inline //  -->
   </div> <!-- navbar-collapse .// -->
@@ -29,11 +36,11 @@
 <div class="row align-items-center">
   <div class="col-lg-3 col-md-3 col-12">
     <a href="{% url 'home' %}" class="brand-wrap">
-      <img class="logo" src="{% static './images/logo.png'%}">
+      <img class="logo" class="img-fluid" src="{% static './images/logo1.png'%}">
     </a> <!-- brand-wrap.// -->
   </div>
 
-  <div class="col-12 col-md-auto"> <!--col-lg col-sm-12 col-md col-6 flex-grow-0-->
+  <div class="col-lg  col-md-6 col-12 col-md-auto"> <!--col-lg col-sm-12 col-md col-6 flex-grow-0-->
     <div class="category-wrap dropdown d-inline-block float-left">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bars"></i> All category
@@ -47,7 +54,10 @@
     </div>  <!-- category-wrap.// -->
   </div> <!-- col.// -->
     <div class="col-lg  col-md-6 col-sm-12 col-12">
-        <a href="{% url 'store' %}" class="btn btn-outline-primary">Store</a>
+        <a href="{% url 'store' %}" class="btn btn-outline-primary">Obchod</a>
+    </div>
+    <div class="col-lg  col-md-6 col-sm-12 col-12">
+        <a href="{% url 'rules' %}" class="btn btn-outline-primary">Podmienky</a>
     </div>
   <div class="col-lg  col-md-6 col-sm-12 col-12">
     <form action="{% url 'search' %}" class="search" method='GET'>
