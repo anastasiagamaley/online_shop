@@ -4,6 +4,8 @@ from .models import Account
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from carts.views import _cart_id
+from carts.models import Cart, CartItem
 
 
 #verification email
@@ -13,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
-
+import requests
 
 # Create your views here.
 def register(request):
@@ -62,13 +64,42 @@ def login(request):
 
 
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+                if is_cart_item_exists:
+                    cart_item = CartItem.objects.filter(cart=cart)
+
+                    user_cart_item = CartItem.objects.filter(user=user)
+
+                    for item in cart_item:
+                        if item in user_cart_item:
+                            item.quantity += 1
+                            item.user = user
+                            item.save()
+                        else:
+                            cart_item = CartItem.objects.filter(cart=cart)
+                            for item in cart_item:
+                                item.user = user
+                                item.save()
+            except:
+                pass
             auth.login(request, user)
             messages.success(request, "Dobry Den")
-            return redirect('dashboard')
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                params = dict(x.split('=') for x in query.split('&'))
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+            except:
+                return redirect('dashboard')
         else:
             messages.error(request, 'Nesprávny email alebo heslo!')
             return redirect('login')
     return render(request, 'accounts/login.html')
+
 
 @login_required(login_url = 'login')
 def logout(request):
