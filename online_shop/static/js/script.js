@@ -61,3 +61,12 @@ $(document).ready(function() {
 setTimeout(function(){
   $('#message').fadeOut('slow')
 }, 4000)
+
+
+$('#chShipAdd').change(function() {
+    if ($('#chShipAdd').prop('checked')) {
+        $('#shipadddiv').show();
+    } else {
+        $('#shipadddiv').hide();
+    }
+});
