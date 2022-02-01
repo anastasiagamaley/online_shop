@@ -66,12 +66,10 @@ def login(request):
         if user is not None:
             try:
                 cart = Cart.objects.get(cart_id=_cart_id(request))
-                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()        
                 if is_cart_item_exists:
                     cart_item = CartItem.objects.filter(cart=cart)
-
                     user_cart_item = CartItem.objects.filter(user=user)
-
                     for item in cart_item:
                         if item in user_cart_item:
                             item.quantity += 1

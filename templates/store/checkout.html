@@ -71,7 +71,7 @@
 							<div class='form-row'>
 
 								<div class="col form-group">
-									<label for="">Ulica 2</label>
+									<label for="">číslo</label>
 									<input type="text" name="address_line_2" class="form-control" />
 
 								</div>
@@ -97,69 +97,78 @@
 							</div>
 							<div class='form-row'>
 								<div class="form-check mb-3">
-									<input type="checkbox" class="form-check-input" id="ship_to">
-									<label class="form-check-label" for="ship_to_different_address">Odoslať na inú adresu?</label>
+									<input type="checkbox" onclick="ChangeShip()" data-toggle="collapse" href="#moreabout" class="form-check-input" aria-expanded="false" aria-controls="moreabout" class="form-control" id="chShipAdd" name="chShipAdd" value="no">
+									<label class="col-md-12 control-label" for="chShipAdd">Odoslať na inú adresu?</label>
 								</div>
 							</div>
-							<div class="form-row">
-								<label for="">Order Note</label>
-								<textarea name="order_note" rows="2" class="form-control"></textarea>
 
-							</div>
-
-										<div class='form-row'>
-
-								<input type="checkbox" onclick="ChangeShip()" href="#moreabout" data-toggle="collapse" aria-expanded="false" aria-controls="moreabout" class="form-control" id="chShipAdd" name="chShipAdd" value="no">
-
-
-								<label for="chShipAdd" class="col-md-3 control-label">Shipping Information?</label>
-							</div>
-
-							<div id="shipadddiv" style="visibility: hidden;">
+							<div id="shipadddiv">
 								<div class="collapse" id="moreabout">
-									<div class="form-group">
+									<div class='form-row'>
+										<div class="col form-group">
+											<label for="">Krstné meno</label>
+											<input type="text" name="post_first_name" class="form-control"  />
+
+										</div>
+										<div class="col form-group">
+											<label for="">Priezvisko</label>
+											<input type="text" name="post_last_name" class="form-control"  />
+
+										</div>
+									</div>
+									<div class='form-row'>
+										<div class="col form-group">
+											<label for="">Názov spoločnosti (voliteľné)</label>
+											<input type="text" name="post_organization" class="form-control" />
+
+										</div>
 										<div class='form-row'>
 											<div class="col form-group">
 												<label for="">Ulica</label>
-												<input type="text" name="" class="form-control"  />
+												<input type="text" name="post_address_line_1" class="form-control" />
 
 											</div>
 										</div>
 										<div class='form-row'>
 
 											<div class="col form-group">
-												<label for="">Ulica 2</label>
-												<input type="text" name="" class="form-control" />
+												<label for="">číslo</label>
+												<input type="text" name="post_address_line_2" class="form-control" />
 
 											</div>
 											<div class="col form-group">
 												<label for="">PSČ</label>
-												<input type="text" name="" class="form-control"  />
+												<input type="text" name="post_post_code" class="form-control" />
 
 											</div>
 										</div>
 										<div class='form-row'>
 											<div class="col form-group">
 												<label for="">Mesto</label>
-												<input type="text" name="" class="form-control"  />
+												<input type="text" name="post_city" class="form-control" />
 
 											</div>
 											<div class="col form-group">
 												<label for="">Krajina</label>
-												<select class="form-control selectpicker" name="country" required>
-													<option value="Slovensko" selected="selected">Slovensko</option>
+												<select class="form-control selectpicker" name="post_country" >
+													<option value="" selected="selected"></option>
+													<option value="Slovensko" >Slovensko</option>
 													<option value="Česká Republika">Česká republika</option>
 												</select>
 											</div>
 										</div>
 
+
 									</div>
 								</div>
+
+								<div class="form-row">
+									<label for="">Komentár</label>
+									<textarea name="order_note" rows="2" class="form-control"></textarea>
+								</div>
+
 							</div>
-
-
-					</div>
-				</div> <!-- card.// -->
+					</div> <!-- card.// -->
 
 			</aside> <!-- col.// -->
 			<aside class="col-lg-6">
@@ -170,8 +179,8 @@
 							<thead class="text-muted">
 								<tr class="small text-uppercase">
 									<th scope="col">Product</th>
-									<th scope="col" width="120">Quantity</th>
-									<th scope="col" width="120">Price</th>
+									<th scope="col" width="120">Množstvo</th>
+									<th scope="col" width="120">Cena</th>
 
 								</tr>
 							</thead>
@@ -193,7 +202,7 @@
 									<td>
 										<div class="price-wrap">
 											<var class="price">${{cart_item.sub_total}}</var>
-											<small class="text-muted"> ${{cart_item.product.price}} each </small>
+											<small class="text-muted"> ${{cart_item.product.price}} za kus </small>
 										</div> <!-- price-wrap .// -->
 									</td>
 									<td class="text-right">
@@ -205,8 +214,8 @@
 							</tbody>
 						</table>
 
-						<button type="submit" name="submit" class="btn btn-primary btn-block"> PlaceOrder </button>
-						<a href="{% url 'store'%}" class="btn btn-light btn-block">Continue Shopping</a>
+						<button type="submit" name="submit" class="btn btn-primary btn-block"> Objednať </button>
+						<a href="{% url 'store'%}" class="btn btn-light btn-block">Pokračovať v nákupe</a>
 					</div> <!-- card-body.// -->
 				</div> <!-- card.// -->
 				</form>
