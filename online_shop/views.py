@@ -6,6 +6,7 @@ from store.forms import ReviewForm
 from store.models import ReviewRating
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from django.db.models import Avg
 
 
 activate('sk')
@@ -21,16 +22,32 @@ def home(request):
             orderproduct = None
     else:
         orderproduct = None
-
     reviews = ReviewRating.objects.filter(status=True)
+    # average rating calculation
+    averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
+    avg = 0
+    if averagereviews['average'] is not None:
+        avg = float(averagereviews['average'])
 
     context = {
     'products': products,
     'orderproduct': orderproduct,
     'reviews': reviews,
+    'avg': avg,
         }
     return render(request, "home.html", context)
 
+
+    averagereviews = ReviewRating.objects.filter(status=True).agrigate(average=Avg('rating'))
+    avg = 0
+    if averagereviews['average'] is not None:
+        avg = float(reviews['average'])
+    return avg
+
+def visits(request):
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+    return num_visits
 
 
 

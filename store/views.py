@@ -40,7 +40,14 @@ def product_detail(request, category_slug, product_slug):
 
     except Exeption as e: # -*- coding: utf-8 -*-
         raise e
-            
+    if request.user.is_authenticated:
+        try:
+            orderproduct = OrderProduct.objects.filter(user=request.user, product_id=single_product.id).exists()
+        except OrderProduct.DoesNotExist:
+            orderproduct = None
+    else:
+        orderproduct = None
+
     context = {
         'single_product': single_product,
         'in_cart': in_cart,

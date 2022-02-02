@@ -1,119 +1,141 @@
-
-
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
 
 <!-- ========================= SECTION MAIN ========================= -->
 <section class="section-intro padding-y-sm">
-<div class="container">
+	<div class="container">
 
-<div  class="intro-banner-wrap" >
-	<div class="d-flex justify-content-center">
-	<img src="{% static 'images/banners/2.jpg'%}" class="{% static 'img-fluid rounded'%}" class="img-fluid" alt="Responsive image">
-</div>
-</div>
-</div>
- <!-- container //  -->
+		<div class="intro-banner-wrap">
+			<div class="d-flex justify-content-center">
+				<img src="{% static 'images/banners/2.jpg'%}" class="{% static 'img-fluid rounded'%}" class="img-fluid" alt="Responsive image">
+			</div>
+		</div>
+	</div>
+	<!-- container //  -->
 </section>
 <!-- ========================= SECTION MAIN END// ========================= -->
 
 <!-- ========================= SECTION  ========================= -->
 <section class="section-name padding-y-sm">
-<div class="container">
+	<div class="container">
 
-<header class="section-heading">
-	<a href="{% url 'store'%}" class="btn btn-outline-primary float-right">See all</a>
-	<h3 class="section-title">Our Products</h3>
-</header><!-- sect-heading -->
+		<header class="section-heading">
+			<a href="{% url 'store'%}" class="btn btn-outline-primary float-right">See all</a>
+			<h3 class="section-title">Our Products</h3>
+		</header><!-- sect-heading -->
 
 
-<div class="row">
-	{% for product in products %}
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="{{product.get_url}}" class="img-wrap"> <img src="{{product.images.url}}"> </a>
-			<figcaption class="info-wrap">
-				<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
-				<div class="price mt-1">${{product.price}}</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div>
-	{% endfor %} <!-- col.// -->
-</div> <!-- row.// -->
-<div class="row">
+		<div class="row">
+			{% for product in products %}
+			<div class="col-md-3">
+				<div class="card card-product-grid">
+					<a href="{{product.get_url}}" class="img-wrap"> <img src="{{product.images.url}}"> </a>
+					<figcaption class="info-wrap">
+						<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+						<div class="price mt-1">${{product.price}}</div> <!-- price-wrap.// -->
+					</figcaption>
+				</div>
+			</div>
+			{% endfor %}
+			<!-- col.// -->
+		</div> <!-- row.// -->
+		<div class="row">
 			<div class="col-md-12">
 
-	<header class="section-heading">
-		<h3>Napísať recenziu</h3>
-	</header>
-	<form action="{% url 'submit_review' %}" method='POST'>
-		{% csrf_token %}
+				<header class="section-heading">
+					<h3>Napísať recenziu</h3>
+				</header>
+				<form action="{% url 'submit_review' %}" method='POST'>
+					{% csrf_token %}
 
-		<div>
-			<!--Rating start-->
-			<label for="">Ako hodnotíte náš servis?</label>
-			<br />
-			<div class='rate'>
-				<input type="radio" name="rating" id="rating10" value='5' required/><label for='rating10' title='5'></label>
-				<input type="radio" name="rating" id="rating9" value='4.5' required/><label for='rating9' title='4.5' class='half'></label>
-				<input type="radio" name="rating" id="rating8" value='4' required/><label for='rating8' title='4'></label>
-				<input type="radio" name="rating" id="rating7" value='3.5' required/><label for='rating7' title='3.5' class='half'></label>
-				<input type="radio" name="rating" id="rating6" value='3' required/><label for='rating6' title='3'></label>
-				<input type="radio" name="rating" id="rating5" value='2.5' required/><label for='rating5' title='2.5' class='half'></label>
-				<input type="radio" name="rating" id="rating4" value='2' required/><label for='rating4' title='2'></label>
-				<input type="radio" name="rating" id="rating3" value='1.5' required/><label for='rating3' title='1.5' class='half'></label>
-				<input type="radio" name="rating" id="rating2" value='1' required/><label for='rating2' title='1'></label>
-				<input type="radio" name="rating" id="rating1" value='0.5' required/><label for='rating1' title='0.5' class='half'></label>
+					<div>
+						<!--Rating start-->
+						<label for="">Ako hodnotíte náš servis?</label>
+						<br />
+						<div class='rate'>
+							<input type="radio" name="rating" id="rating10" value='5' required /><label for='rating10' title='5'></label>
+							<input type="radio" name="rating" id="rating9" value='4.5' required /><label for='rating9' title='4.5' class='half'></label>
+							<input type="radio" name="rating" id="rating8" value='4' required /><label for='rating8' title='4'></label>
+							<input type="radio" name="rating" id="rating7" value='3.5' required /><label for='rating7' title='3.5' class='half'></label>
+							<input type="radio" name="rating" id="rating6" value='3' required /><label for='rating6' title='3'></label>
+							<input type="radio" name="rating" id="rating5" value='2.5' required /><label for='rating5' title='2.5' class='half'></label>
+							<input type="radio" name="rating" id="rating4" value='2' required /><label for='rating4' title='2'></label>
+							<input type="radio" name="rating" id="rating3" value='1.5' required /><label for='rating3' title='1.5' class='half'></label>
+							<input type="radio" name="rating" id="rating2" value='1' required /><label for='rating2' title='1'></label>
+							<input type="radio" name="rating" id="rating1" value='0.5' required /><label for='rating1' title='0.5' class='half'></label>
 
-				</div>
-		<br />
-			Predmet recenzie:
-			<input type='text' class='form-control' name='subject'/>
-			<br />
-			Popíšte svoju skúsenosť:
-			<textarea name="review" rows="4" class='form-control'></textarea>
-			<br />
-			{% if user.is_authenticated %}
-			{% if orderproduct %}
-			<input type="submit" value="Napísať Recenziu" class='btn btn-primary'>
-			{%else%}
-			<p>you didnt buy anithing</p>
-			{%endif%}
-			{%else%}
-			<p>Pre napísanie recenzie potrebujete byť <span><a href="{% url 'login' %}"> prihlásený</a></span></p>
-			{%endif%}
-			</div>
-			{% include 'includes/alerts.html'%}
-		</form>
-		<br />
-		<header class="section-heading">
-			<h3>Recenzie Zákazníkov</h3>
-	</header>
-{% for review in reviews %}
-	<article class="box mb-3">
-		<div class="icontext w-100">
-			<img src="{% static './images/logo0.png'%}" class="img-xs icon rounded-circle">
-			<div class="text">
-				<span class="date text-muted float-md-right">{{review.modified_date}}</span>
-				<h6 class="mb-1">{{review.user.first_name}} {{review.user.last_name}}</h6>
+						</div>
+						<br />
+						Predmet recenzie:
+						<input type='text' class='form-control' name='subject' />
+						<br />
+						Popíšte svoju skúsenosť:
+						<textarea name="review" rows="4" class='form-control'></textarea>
+						<br />
+						{% if user.is_authenticated %}
+						{% if orderproduct %}
+						<input type="submit" value="Napísať Recenziu" class='btn btn-primary'>
+						{%else%}
+						<p>you didnt buy anithing</p>
+						{%endif%}
+						{%else%}
+						<p>Pre napísanie recenzie potrebujete byť <span><a href="{% url 'login' %}"> prihlásený</a></span></p>
+						{%endif%}
+					</div>
+					{% include 'includes/alerts.html'%}
+				</form>
+				<br />
+				<header class="section-heading">
+					<h3>Recenzie Zákazníkov</h3>
 
-			</div>
-		</div> <!-- icontext.// -->
-		<div class="mt-3">
-			<h6>{{review.subject}}</h6>
-			<p>{{review.review}}</p>
+					<h3>
+					<div class='rating-star'>
+						<span>
+							<i class="fa fa-star{% if avg < 0.5%}-o{%elif avg >= 0.5 and avg < 1%}-half-o{%endif%}" aria-hidden="true"></i>
+							<i class="fa fa-star{% if avg < 1.5%}-o{%elif avg >= 1.5 and avg < 2%}-half-o{%endif%}" aria-hidden="true"></i>
+							<i class="fa fa-star{% if avg < 2.5%}-o{%elif avg >= 2.5 and avg < 3%}-half-o{%endif%}" aria-hidden="true"></i>
+							<i class="fa fa-star{% if avg < 3.5%}-o{%elif avg >= 3.5 and avg < 4%}-half-o{%endif%}" aria-hidden="true"></i>
+							<i class="fa fa-star{% if avg < 4.5%}-o{%elif avg >= 4.5 and avg < 5%}-half-o{%endif%}" aria-hidden="true"></i>
+						</span>
+						</div>
+					</h3>
+
+				</header>
+				{% for review in reviews %}
+				<article class="box mb-3">
+					<div class="icontext w-100">
+						<img src="{% static './images/logo0.png'%}" class="img-xs icon rounded-circle">
+						<div class="text">
+							<span class="date text-muted float-md-right">{{review.modified_date}}</span>
+							<h6 class="mb-1">{{review.user.first_name}} {{review.user.last_name}}</h6>
+							<div class='rating-star'>
+								<span>
+									<i class="fa fa-star{% if review.rating == 0.5%}-half-o{%elif review.rating < 1%}-o{%endif%}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if review.rating == 1.5%}-half-o{%elif review.rating < 2%}-o{%endif%}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if review.rating == 2.5%}-half-o{%elif review.rating < 3%}-o{%endif%}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if review.rating == 3.5%}-half-o{%elif review.rating < 4%}-o{%endif%}" aria-hidden="true"></i>
+									<i class="fa fa-star{% if review.rating == 4.5%}-half-o{%elif review.rating < 5%}-o{%endif%}" aria-hidden="true"></i>
+								</span>
+							</div>
+							{{review.rating}}
+						</div>
+					</div> <!-- icontext.// -->
+					<div class="mt-3">
+						<h6>{{review.subject}}</h6>
+						<p>{{review.review}}</p>
+					</div>
+				</article>
+				{% endfor %}
+
+
+			</div> <!-- col.// -->
 		</div>
-	</article>
-{% endfor %}
-
-
-	</div> <!-- col.// -->
-</div>
-</div><!-- container // -->
+	</div><!-- container // -->
 </section>
 <!-- ========================= SECTION  END// ========================= -->
 </body>
+
 </html>
 
 {%endblock%}

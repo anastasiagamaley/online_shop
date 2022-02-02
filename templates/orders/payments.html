@@ -185,11 +185,13 @@
     }
     return cookieValue;
   }
-  const csrftoken = getCookie('csrftoken');
 
-  var amount = "{{ grand_otal }}"
+  var csrftoken = getCookie('csrftoken');
+
+  var amount = "{{grand_total}}"
   var url = "{% url 'payments' %}"
   var orderID = "{{order.order_number}}"
+
   var payment_method = "paypal"
   var redirect_url = "{% url 'order_complete' %}"
 
@@ -203,7 +205,7 @@
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: amount // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+            value: amount, // Can reference variables or functions. Example: `value: document.getElementById('...').value`
           }
         }]
       });
@@ -211,16 +213,13 @@
 
     // Finalize the transaction after payer approval
     onApprove: function(data, actions) {
-      return actions.order.capture().then(function(orderData) {
+      return actions.order.capture().then(function(details) {
         // Successful capture! For dev/demo purposes:
-        console.log({
-          'Capture result',
-          details
-        });
+        console.log(details);
         sendData();
         function sendData() {
           fetch(url, {
-              method: "POST",
+              method : "POST",
               headers: {
                 "Content-type": "application/json",
                 "X-CSTFToken": csrftoken,
@@ -247,5 +246,7 @@
     }
   }).render('#paypal-button-container');
 </script>
+
+
 
 {%endblock%}
