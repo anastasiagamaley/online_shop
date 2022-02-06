@@ -8,6 +8,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.db.models import Avg
 
+from .forms import ContactForm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.mail import BadHeaderError, EmailMessage
+from django.template.loader import render_to_string
+
 
 activate('sk')
 
@@ -75,3 +80,37 @@ def submit_review(request):
                 data.save()
                 messages.success(request, 'Ďakujem za Vaše hodnotenie!')
                 return redirect('home')
+
+
+def company(request):
+    return render(request, "company.html")
+
+
+def contact(request):
+    if request.method == 'GET':
+        form = ContactForm()
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            mail_subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            messagetext = form.cleaned_data['message']
+            message = render_to_string('accounts/contact_email.html', {
+                'from_email': from_email,
+                'messagetext': messagetext,
+            })
+            to_email = 'anastasiagamaley@gmail.com'
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            try:
+                send_email.send()
+            except BadHeaderError:
+                return HttpResponse('Vyplnite vsetky polia')
+            messages.success(request, 'Vas email bol odoslaný')
+            return render(request, "contact.html", {'form': form})
+    else:
+        return render(request, "contact.html", {'form': form})
+
+
+
+def dtf(request):
+    return render(request, "dtf.html")

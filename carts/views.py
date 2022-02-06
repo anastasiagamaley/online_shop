@@ -99,10 +99,10 @@ def cart(request, total=0, quantity=0, cart_items=None):
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
+            total += float((cart_item.product.price * cart_item.quantity))
             quantity += cart_item.quantity
-        tax = (20 * total)/100
-        grand_total = total + tax
+        tax = float("{:.2f}".format((20 * total)/100))
+        grand_total = float("{:.2f}".format(total + tax))
     except ObjectDoesNotExist:
         pass
 
@@ -132,6 +132,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
         tax = (2 * total)/100
+        tax = round(tax, 2)
         grand_total = total + tax
     except ObjectDoesNotExist:
         pass

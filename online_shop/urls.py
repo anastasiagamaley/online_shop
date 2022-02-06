@@ -19,13 +19,19 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('integrationpanel/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('', views.home, name="home"),
     path('store/', include('store.urls')),
     path('cart/', include('carts.urls')),
     path('accounts/', include('accounts.urls')),
     path('rules/', views.rules, name="rules"),
+    path('company/', views.company, name="company"),
+    path('contact/', views.contact, name="contact"),
+    path('dtf/', views.dtf, name="dtf"),
     #orders
     path('orders/', include('orders.urls')),
     path('submit_review/', views.submit_review, name='submit_review')

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Account
+from .models import Account, UserProfile
 # Register your models here.
 
 class AccountAdmin(UserAdmin):
@@ -11,4 +11,8 @@ class AccountAdmin(UserAdmin):
     list_filter = ()
     fieldsets = ()
 
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'address_line_1', 'address_line_2', 'city', 'country', 'post_code')
+
 admin.site.register(Account, AccountAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)

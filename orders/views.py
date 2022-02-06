@@ -16,8 +16,8 @@ def payments(request):
     # store transaction details
     payment = Payment(
         user = request.user,
-        payment_id = body.transID,
-        payment_metod = body['payment_method'],
+        payment_id = body['transID'],
+        payment_method = body['payment_method'],
         amount_paid = order.order_total,
         status = body['status']
     )
@@ -35,7 +35,7 @@ def payments(request):
         orderproduct.order_id = order.id
         orderproduct.payment = payment
         orderproduct.user_id = request.user.id
-        orderproduct.product_id = request.product_id
+        orderproduct.product_id = item.product_id
         orderproduct.quantity = item.quantity
         orderproduct.product_price = item.product.price
         orderproduct.ordered = True
@@ -54,7 +54,7 @@ def payments(request):
 
 
     mail_subject = 'thank you for order'
-    message = render_to_string('order/order_recieved_email.html', {
+    message = render_to_string('orders/order_recieved_email.html', {
         'user': request.user,
         'order': order,
 
@@ -85,8 +85,8 @@ def place_order(request, total=0, quantity=0):
     for cart_item in cart_items:
         total += (cart_item.product.price * cart_item.quantity)
         quantity += cart_item.quantity
-    tax = (20 * total)/100
-    grand_total = total + tax
+    tax = float("{:.2f}".format((20 * total)/100))
+    grand_total = "{:.2f}".format(total + tax)
 
     if request.method == "POST":
         form = OrderForm(request.POST)
@@ -151,7 +151,7 @@ def order_complete(request):
 
     try:
         order = Order.objects.get(order_number=order_number, is_ordered=True)
-        ordered_products = OrderProducts.objects.filter(order_id=order.id)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
 
         subtotal = 0
         for i in ordered_products:

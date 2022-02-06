@@ -1,0 +1,113 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<section class="section-content padding-y bg"  >
+<div class="container" >
+
+	<h2 class="title-page">	Kontakty </h2>
+
+
+
+	<!-- ============================ COMPONENT 1 ================================= -->
+
+
+			<!-- ============================ COMPONENT 1 ================================= -->
+
+			<div class="row">
+				<aside class="col-lg-6">
+	        <div class="card">
+	          <div class="card">
+
+	            <div class="card-body ml-auto">
+
+
+
+	              <p class="card-text"><b>DTF elele</b></p>
+	              <p class="card-text"><b>Realitcom s.r.o.</b></p>
+	              <p class="card-text"><b>Magurská 37</b></p>
+								<p class="card-text"><b>974 11 Banská Bystrica</b></p>
+	              <p class="card-text"><b>IČO: 50941461</b></p>
+	              <p class="card-text"><b>DIČ: 2120528905</b></p>
+								<p class="card-text"><b>IČ DPH: SK21205289057</b></p>
+
+
+	            </div>
+	          </div>
+	          <div class="card">
+	            <h5 class="card-header">Konateľ spoločnosti:</h5>
+	            <div class="card-body ml-auto">
+	              <p class="card-text">Mária Gabinová</p>
+	              <p class="card-text">+421 948 295 089</p>
+	              <p class="card-text">elele@elele.sk</p>
+	            </div>
+	          </div>
+						<div class="card">
+	            <h5 class="card-header">Obchodné oddelenie:</h5>
+	            <div class="card-body ml-auto">
+	              <p class="card-text">Ing. Štefan Repka</p>
+	              <p class="card-text">+421 910 441 012</p>
+	              <p class="card-text">objednavky@elele.sk</p>
+								<br />
+	              <p class="card-text">Patrik Gabina</p>
+								<p class="card-text">+45 91 99 09 66</p>
+	              <p class="card-text">objednavky@elele.sk</p>
+	            </div>
+	          </div>
+						<div class="card">
+	            <h5 class="card-header">Podpora a servis:</h5>
+	            <div class="card-body ml-auto">
+	              <p class="card-text">Miroslav Repka</p>
+	              <p class="card-text">+421 901 711 016</p>
+	              <p class="card-text">servis@elele.sk</p>
+	            </div>
+	          </div>
+
+	               	            </div>	           <!-- card.// -->
+
+	      </aside>
+				<aside class="col-lg-6">
+
+					<div class="card">
+						<div class="card-body">
+							<table class="table table-borderless table-shopping-cart">
+								<form action="{% url 'contact'%}" method="POST">
+									{% csrf_token %}
+									{% include 'includes/alerts.html' %}
+									<div class='form-row'>
+											<label for="">E-mailová adresa</label>
+											<input type="email" name="from_email" class="form-control" required />
+									</div>
+									<div class='form-row'>
+											<label for="">Tema</label>
+											<input type="text" name="subject" class="form-control" required />
+									</div>
+
+										<div class="form-row">
+											<label for="">Komentár</label>
+											<textarea name="message" rows="2" class="form-control" required></textarea>
+										</div>
+										<br />
+										<button type="submit" name="submit" class="btn btn-primary btn-block"> Odoslať</button>
+
+
+									</form>
+									</table>
+							</div>
+							</div>
+
+								 <!-- card.// -->
+
+				</aside> <!-- col.// -->
+
+
+			</div> <!-- row.// -->
+
+			<!-- ============================ COMPONENT 1 END .// ================================= -->
+
+
+
+
+				</div> <!-- container //  -->
+				</section>
+
+{% endblock %}
