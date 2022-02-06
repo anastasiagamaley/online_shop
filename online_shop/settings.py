@@ -29,6 +29,7 @@ DEBUG = False
 
 
 ALLOWED_HOSTS = ['online-shop-env.eba-9xzm4a2m.us-west-2.elasticbeanstalk.com']
+
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
