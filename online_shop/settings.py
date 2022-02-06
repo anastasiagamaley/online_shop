@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['online-shop-env.eba-9xzm4a2m.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['online1-env.eba-h4323k7b.us-west-2.elasticbeanstalk.com']
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
