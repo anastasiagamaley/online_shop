@@ -25,10 +25,17 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = config('DEBUG', default=False, cast=bool)
+<<<<<<< HEAD
 DEBUG = True
+=======
+DEBUG = False
+
+>>>>>>> f479e5b63b18ae0ee9373c5c7cd6eec0556e6089
 
 
 ALLOWED_HOSTS = ['online1-env.eba-h4323k7b.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['127.0.0.1']
+
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
@@ -93,8 +100,13 @@ AUTH_USER_MODEL = 'accounts.Account'
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': "django.db.backends.sqlite3",
         'NAME': BASE_DIR / "db.sqlite3",
+=======
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': BASE_DIR / config('DB_NAME'),
+>>>>>>> f479e5b63b18ae0ee9373c5c7cd6eec0556e6089
     }
 }
 
