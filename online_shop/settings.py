@@ -94,7 +94,7 @@ AUTH_USER_MODEL = 'accounts.Account'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
+#
 if 'RDS_DB_NAME' in os.environ:
     DATABASES = {
         'default': {
@@ -115,7 +115,16 @@ else:
     }
 
 
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': "eleledb",
+#         'USER': "eleledbuser",
+#         'PASSWORD': "dbuser1234",
+#         'HOST': "aa19zaopi7s0sbx.ci3engrmoqxo.us-west-2.rds.amazonaws.com",
+#         'PORT': 5432,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

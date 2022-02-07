@@ -32,7 +32,7 @@ def home(request):
     #reviews = ReviewRating.objects.filter(status=True)
     # average rating calculation
     #averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
-    avg = 0
+    avg = None
     #if averagereviews['average'] is not None:
         #avg = float(averagereviews['average'])
 
