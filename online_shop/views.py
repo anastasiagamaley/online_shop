@@ -18,6 +18,7 @@ activate('sk')
 
 def home(request):
     products = Product.objects.all().filter(is_available=True)
+    reviews = None
 
     # check if customer odred anithing to white review
     if request.user.is_authenticated:
