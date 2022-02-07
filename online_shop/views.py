@@ -19,7 +19,7 @@ activate('sk')
 def home(request):
     products = Product.objects.all().filter(is_available=True)
     reviews = None
-    averagereviews = None
+
 
     # check if customer odred anithing to white review
     if request.user.is_authenticated:
@@ -29,12 +29,12 @@ def home(request):
             orderproduct = None
     else:
         orderproduct = None
-    reviews = ReviewRating.objects.filter(status=True)
+    #reviews = ReviewRating.objects.filter(status=True)
     # average rating calculation
-    averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
+    #averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
     avg = 0
-    if averagereviews['average'] is not None:
-        avg = float(averagereviews['average'])
+    #if averagereviews['average'] is not None:
+        #avg = float(averagereviews['average'])
 
     context = {
     'products': products,
