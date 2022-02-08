@@ -29,12 +29,11 @@ def home(request):
             orderproduct = None
     else:
         orderproduct = None
-    #reviews = ReviewRating.objects.filter(status=True)
+    reviews = ReviewRating.objects.filter(status=True)
     # average rating calculation
-    #averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
-    avg = None
-    #if averagereviews['average'] is not None:
-        #avg = float(averagereviews['average'])
+    averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
+    if averagereviews['average'] is not None:
+        avg = float(averagereviews['average'])
 
     context = {
     'products': products,
@@ -116,3 +115,6 @@ def contact(request):
 
 def dtf(request):
     return render(request, "dtf.html")
+
+def policy(request):
+    return render(request, 'policy.html')

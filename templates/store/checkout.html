@@ -213,12 +213,18 @@
 
 							</tbody>
 						</table>
+						<div class='form-row'>
+							<div class="form-check mb-3">
+								<input type="checkbox" onclick="" class="form-check-input" class="form-control" id="rules" name="rules" value="no" required>
+								<label class="col-md-12 control-label" >Súhlasim s <a href="{%url 'rules'%}">obchodnými podmienkami</a></label>
+							</div>
+						</div>
 
 						<button type="submit" name="submit" class="btn btn-primary btn-block"> Objednať </button>
 						<a href="{% url 'store'%}" class="btn btn-light btn-block">Pokračovať v nákupe</a>
 					</div> <!-- card-body.// -->
 				</div> <!-- card.// -->
-				</form>
+
 			</aside> <!-- col.// -->
 
 

@@ -34,5 +34,6 @@ urlpatterns = [
     path('dtf/', views.dtf, name="dtf"),
     #orders
     path('orders/', include('orders.urls')),
-    path('submit_review/', views.submit_review, name='submit_review')
+    path('submit_review/', views.submit_review, name='submit_review'),
+    path('policy.html/', views.policy, name="policy"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
