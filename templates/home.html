@@ -21,7 +21,7 @@
 	<div class="container">
 
 		<header class="section-heading">
-			<a href="{% url 'store'%}" class="btn btn-outline-primary float-right">See all</a>
+			<a href="{% url 'store'%}" class="btn btn-outline-dark float-right">See all</a>
 			<h3 class="section-title">Produkty</h3>
 		</header><!-- sect-heading -->
 
@@ -45,6 +45,7 @@
 
 				<header class="section-heading">
 					<h3>Napísať recenziu</h3>
+					{% include 'includes/alerts.html'%}
 				</header>
 				<form action="{% url 'submit_review' %}" method='POST'>
 					{% csrf_token %}
@@ -103,6 +104,7 @@
 
 				</header>
 				{% for review in reviews %}
+				{% if not review.parent_id %}
 				<article class="box mb-3">
 					<div class="icontext w-100">
 						<img src="{% static './images/logo0.png'%}" class="img-xs icon rounded-circle">
@@ -125,7 +127,51 @@
 						<h6>{{review.subject}}</h6>
 						<p>{{review.review}}</p>
 					</div>
+					<br />
+					{%for comment in review.children %}
+					<article class="box mb-3">
+					<blockquote>
+						<div class="icontext w-100">
+							<img src="{% static './images/logo0.png'%}" class="img-xs icon rounded-circle">
+							<div class="text">
+								<span class="date text-muted float-md-right">{{comment.modified_date}}</span>
+								<h6 class="mb-1">{{comment.user.first_name}} {{comment.user.last_name}}</h6>
+
+							<p>{{comment.review}}</p>
+						</div>
+					</blockquote>
+
+						</article>
+					{%endfor%}
+
+					<form action="{% url 'submit_review' %}" method='POST'>
+						{% csrf_token %}
+						<div>
+							<br />
+							{% if user.is_authenticated %}
+							{% if orderproduct or user.is_admin %}
+							Komentar:
+							<textarea name="review" rows="2" class='form-control'></textarea>
+							<input type="hidden" name='parent_id' value={{review.id}} />
+							<input type="hidden" name="rating" id="rating" value='5'/>
+							<input type="hidden" class='form-control' name='subject' value=None>
+										<br />
+
+							<input type="submit" value="Komentovať" class='btn btn-dark'>
+
+							{%else%}
+							<p>you didnt buy anithing</p>
+							{%endif%}
+							{%else%}
+							<p>Pre napísanie recenzie potrebujete byť <span><a href="{% url 'login' %}"> prihlásený</a></span></p>
+							{%endif%}
+						</div>
+
+					</form>
+
+
 				</article>
+				{%endif%}
 				{% endfor %}
 
 

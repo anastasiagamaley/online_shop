@@ -26,16 +26,34 @@ class Product(models.Model):
 
 class ReviewRating(models.Model):
     user=models.ForeignKey(Account, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=100, blank=True)
+    subject = models.CharField(max_length=100, blank=True, null=True)
     review = models.TextField(max_length=500, blank=True)
-    rating = models.FloatField()
+    rating = models.FloatField(blank=True)
     ip = models.CharField(max_length=20, blank=True)
     status = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    parent = models.ForeignKey('self', null=True, on_delete=models.CASCADE, blank = True)
+
+    # reply = models.ForeignKey('self', on_delete=models.CASCADE, related_name="replies", null=True)
+
+
+    class Meta:
+        # sort comments in chronological order by default
+        ordering = ('created_date',)
 
     def __str__(self):
         return self.subject
+
+    def children(self):
+        return ReviewRating.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+            return False
+        return True
+
 
 
 class ProductGallery(models.Model):

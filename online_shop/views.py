@@ -20,7 +20,6 @@ def home(request):
     products = Product.objects.all().filter(is_available=True)
     reviews = None
 
-
     # check if customer odred anithing to white review
     if request.user.is_authenticated:
         try:
@@ -31,29 +30,33 @@ def home(request):
         orderproduct = None
     reviews = ReviewRating.objects.filter(status=True)
     # average rating calculation
-    averagereviews = ReviewRating.objects.filter(status=True).aggregate(average=Avg('rating'))
+    averagereviews = ReviewRating.objects.filter(status=True, parent_id=None).aggregate(average=Avg('rating'))
     if averagereviews['average'] is not None:
         avg = float(averagereviews['average'])
+        # visits of page
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
 
     context = {
     'products': products,
     'orderproduct': orderproduct,
     'reviews': reviews,
     'avg': avg,
+    'num_visits': num_visits,
         }
     return render(request, "home.html", context)
 
 
-    averagereviews = ReviewRating.objects.filter(status=True).agrigate(average=Avg('rating'))
+    averagereviews = ReviewRating.objects.filter(status=True, parent=None).agrigate(average=Avg('rating'))
     avg = 0
     if averagereviews['average'] is not None:
         avg = float(reviews['average'])
     return avg
 
-def visits(request):
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
-    return num_visits
+# def visits(request):
+#     num_visits = request.session.get('num_visits', 0)
+#     request.session['num_visits'] = num_visits + 1
+#     return num_visits
 
 
 
@@ -63,24 +66,41 @@ def rules(request):
 
 def submit_review(request):
     if request.method == "POST":
-        try:
-            reviews = ReviewRating.objects.get(user__id=request.user.id)
-            form = ReviewForm(request.POST, instance=reviews)
-            form.save()
+        # try:
+        #     reviews = ReviewRating.objects.get(user__id=request.user.id)
+        #     form = ReviewForm(request.POST, instance=reviews)
+        #     form.save()
+        #     messages.success(request, 'Ďakujem za Vaše!')
+        #     return redirect('home')
+        # except ReviewRating.DoesNotExist:
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            parent_obj = None
+            try:
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            if parent_id:
+                parent_qs = ReviewRating.objects.filter(id=parent_id)
+                if parent_qs.exists() and parent_qs.count() == 1:
+                    parent_obj = parent_qs.first()
+            data = ReviewRating()
+            try:
+                data.subject = form.cleaned_data['subject']
+            except:
+                data.subject = None
+            try:
+                data.rating = form.cleaned_data['rating']
+            except:
+                data.rating = None
+            data.review = form.cleaned_data['review']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.user_id = request.user.id
+            data.parent = parent_obj
+            data.save()
             messages.success(request, 'Ďakujem za Vaše hodnotenie!')
             return redirect('home')
-        except ReviewRating.DoesNotExist:
-            form = ReviewForm(request.POST)
-            if form.is_valid():
-                data = ReviewRating()
-                data.subject = form.cleaned_data['subject']
-                data.rating = form.cleaned_data['rating']
-                data.review = form.cleaned_data['review']
-                data.ip = request.META.get('REMOTE_ADDR')
-                data.user_id = request.user.id
-                data.save()
-                messages.success(request, 'Ďakujem za Vaše hodnotenie!')
-                return redirect('home')
+
 
 
 def company(request):

@@ -12,7 +12,7 @@
 <h2 class="text-center">Váš košík je prázdny</h2>
 <br />
 <div class="text-center">
-	<a href="{%url 'store'%}" class='btn btn-primary'>Pokračovať v nákupe</a>
+	<a href="{%url 'store'%}" class='btn btn-dark'>Pokračovať v nákupe</a>
 	</div>
 {%else%}
 <div class="row">
@@ -86,7 +86,7 @@
 			<p class="text-center mb-3">
 				<img src="{% static './images/misc/payments.png'%}" height="26">
 			</p>
-			<a href="{% url 'checkout'%}" class="btn btn-primary btn-block"> Pokračovať v objednávke </a>
+			<a href="{% url 'checkout'%}" class="btn btn-dark btn-block"> Pokračovať v objednávke </a>
 			<a href="{% url 'store'%}" class="btn btn-light btn-block">Pokračovať v nákupe</a>
 		</div> <!-- card-body.// -->
 		</div> <!-- card.// -->
