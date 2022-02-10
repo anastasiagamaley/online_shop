@@ -19,12 +19,14 @@
 							<div class='form-row'>
 								<div class="col form-group">
 									<label for="">Krstné meno</label>
-									<input type="text" name="first_name" class="form-control" required />
+									<input type="text" name="first_name" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 								<div class="col form-group">
 									<label for="">Priezvisko</label>
-									<input type="text" name="last_name" class="form-control" required />
+									<input type="text" name="last_name" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 							</div>
@@ -52,19 +54,22 @@
 							<div class='form-row'>
 								<div class="col form-group">
 									<label for="">E-mailová adresa </label>
-									<input type="email" name="email" class="form-control" required />
+									<input type="email" name="email" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 								<div class="col form-group">
 									<label for="">Telefón</label>
-									<input type="text" name="phone" class="form-control" required />
+									<input type="text" name="phone" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class="col form-group">
 									<label for="">Ulica</label>
-									<input type="text" name="address_line_1" class="form-control" required />
+									<input type="text" name="address_line_1" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 							</div>
@@ -77,19 +82,22 @@
 								</div>
 								<div class="col form-group">
 									<label for="">PSČ</label>
-									<input type="text" name="post_code" class="form-control" required />
+									<input type="text" name="post_code" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class="col form-group">
 									<label for="">Mesto</label>
-									<input type="text" name="city" class="form-control" required />
+									<input type="text" name="city" class="form-control" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required />
 
 								</div>
 								<div class="col form-group">
 									<label for="">Krajina</label>
-									<select class="form-control selectpicker" name="country" required>
+									<select class="form-control selectpicker" name="country" oninvalid="this.setCustomValidity('Prosím vyplňte toto pole')"
+ oninput="setCustomValidity('')" required>
 										<option value="Slovensko" selected="selected">Slovensko</option>
 										<option value="Česká Republika">Česká republika</option>
 									</select>
@@ -215,7 +223,8 @@
 						</table>
 						<div class='form-row'>
 							<div class="form-check mb-3">
-								<input type="checkbox" onclick="" class="form-check-input" class="form-control" id="rules" name="rules" value="no" required>
+								<input type="checkbox" onclick="" class="form-check-input" class="form-control" id="rules" name="rules" value="no" oninvalid="this.setCustomValidity('Začiarknite toto pole, ak chcete pokračovať')"
+oninput="setCustomValidity('')" required>
 								<label class="col-md-12 control-label" >Súhlasim s <a href="{%url 'rules'%}">obchodnými podmienkami</a></label>
 							</div>
 						</div>

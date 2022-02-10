@@ -7,6 +7,7 @@ from store.models import ReviewRating
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.db.models import Avg
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from .forms import ContactForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -18,6 +19,10 @@ activate('sk')
 
 def home(request):
     products = Product.objects.all().filter(is_available=True)
+    # paginator = Paginator(products, 8)
+    # page = request.GET.get('page')
+    # paged_products = paginator.get_page(page)
+    # product_count = products.count()
     reviews = None
 
     # check if customer odred anithing to white review

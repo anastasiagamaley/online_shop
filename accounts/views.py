@@ -76,17 +76,20 @@ def login(request):
                 is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
                 if is_cart_item_exists:
                     cart_item = CartItem.objects.filter(cart=cart)
-                    user_cart_item = CartItem.objects.filter(user=user)
+                    CartItem.objects.filter(user=user).delete()
+                    # user_cart_item = CartItem.objects.filter(user=request.user)
                     for item in cart_item:
-                        if item in user_cart_item:
-                            item.quantity += 1
-                            item.user = user
-                            item.save()
-                        else:
-                            cart_item = CartItem.objects.filter(cart=cart)
-                            for item in cart_item:
-                                item.user = user
-                                item.save()
+                        # # if item in user_cart_item:
+                        #     item.quantity += 1
+                        #     item.user = user
+                        #     item.save()
+                        # else:
+                        # cart_item = CartItem.objects.filter(cart=cart)
+                        # for item in cart_item:
+                        item.user = user
+                        item.save()
+
+
             except:
                 pass
             auth.login(request, user)
