@@ -126,10 +126,10 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        messages.success(request, 'congratulations your account is active')
+        messages.success(request, 'Gratulujeme účet je aktívny')
         return redirect('login')
     else:
-        messages.error(request, 'Invalid link')
+        messages.error(request, 'Neplatný odkaz')
         return redirect('register')
 
 

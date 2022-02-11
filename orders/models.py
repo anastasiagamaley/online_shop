@@ -54,6 +54,7 @@ class Order(models.Model):
     post_country = models.CharField(max_length=50, blank=True)
     post_city = models.CharField(max_length=50, blank=True)
     post_post_code = models.CharField(max_length=10, blank=True)
+    shipping_method = models.CharField(max_length=50, blank=True)
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"

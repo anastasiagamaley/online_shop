@@ -119,6 +119,7 @@ def place_order(request, total=0, quantity=0):
             data.order_total = grand_total
             data.tax = tax
             data.ip = request.META.get('REMOTE_ADDR')
+            data.shipping_method = form.cleaned_data['shipping_method']
             data.save()
             #generate order id
             yr = int(datetime.date.today().strftime('%Y'))
@@ -131,12 +132,24 @@ def place_order(request, total=0, quantity=0):
             data.save()
 
             order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
+            shipping = 0
+            if order.shipping_method == "post":
+                shipping = float(5.9)
+            elif order.shipping_method == "courier":
+                shipping = float(6)
+            else:
+                shipping = 0
+            grand_total = "{:.2f}".format(total + tax + shipping)
+            data.order_total = grand_total
+            data.save()
+
             #payment = Payment.objects.get(user=current_user)
             context = {
                 'order': order,
                 'cart_items': cart_items,
                 'total': total,
                 'tax': tax,
+                'shipping': shipping,
                 'grand_total': grand_total,
                 #'payment': payment,
             }

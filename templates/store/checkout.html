@@ -169,12 +169,23 @@
 
 									</div>
 								</div>
-
+								<p class="card-text">
+		              <label>
+		                <input type="radio" name="shipping_method" value="post">
+		                <img src="{% static './images/misc/posta.png'%}" alt="Slovenska Posta">
+		              </label>
+		            </p>
+		            <p class="card-text">
+		              <label>
+		                <input type="radio" name="shipping_method" value="courier">
+		                <img src="{% static './images/misc/dpd.png'%}" alt="Kurier DPD">
+		              </label>
+		            </p>
 								<div class="form-row">
 									<label for="">Komentár</label>
 									<textarea name="order_note" rows="2" class="form-control"></textarea>
 								</div>
-
+								
 							</div>
 					</div> <!-- card.// -->
 
@@ -232,6 +243,7 @@ oninput="setCustomValidity('')" required>
 						<button type="submit" name="submit" class="btn btn-dark btn-block"> Objednať </button>
 						<a href="{% url 'store'%}" class="btn btn-light btn-block">Pokračovať v nákupe</a>
 					</div> <!-- card-body.// -->
+
 				</div> <!-- card.// -->
 
 			</aside> <!-- col.// -->
