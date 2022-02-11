@@ -210,3 +210,13 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+
+#
+# @        IN    MX    10 mail13.hostmaster.sk.
+# @        IN    MX    15 backupmx.hostmaster.sk.
+# @        IN    MX    30 mx3.hostmaster.sk.
+# 14:04
+# @        IN    TXT    "v=spf1 a mx include:_spf.webhouse.sk ~all"
+# mail        IN    CNAME    mail13.hostmaster.sk.
+# webmail        IN    CNAME    mail13.hostmaster.sk.
+# 14:05
