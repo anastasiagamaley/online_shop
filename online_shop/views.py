@@ -19,10 +19,7 @@ activate('sk')
 
 def home(request):
     products = Product.objects.all().filter(is_available=True)
-    # paginator = Paginator(products, 8)
-    # page = request.GET.get('page')
-    # paged_products = paginator.get_page(page)
-    # product_count = products.count()
+
     reviews = None
 
     # check if customer odred anithing to white review
@@ -38,16 +35,15 @@ def home(request):
     averagereviews = ReviewRating.objects.filter(status=True, parent_id=None).aggregate(average=Avg('rating'))
     if averagereviews['average'] is not None:
         avg = float(averagereviews['average'])
-        # visits of page
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
+        # visits on page
+
 
     context = {
     'products': products,
     'orderproduct': orderproduct,
     'reviews': reviews,
     'avg': avg,
-    'num_visits': num_visits,
+    # 'num_visits': num_visits,
         }
     return render(request, "home.html", context)
 

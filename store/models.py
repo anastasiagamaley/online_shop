@@ -2,12 +2,13 @@ from django.db import models
 from category.models import Category
 from django.urls import reverse
 from accounts.models import Account
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Product(models.Model):
     product_name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
-    description = models.TextField(blank=True)
+    description = RichTextField(blank=True)
     price = models.FloatField()
     images = models.ImageField(upload_to='photos/products',)
     stock = models.IntegerField()
