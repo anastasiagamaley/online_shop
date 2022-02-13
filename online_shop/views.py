@@ -4,6 +4,7 @@ from orders.models import OrderProduct
 from django.utils.translation import activate
 from store.forms import ReviewForm
 from store.models import ReviewRating
+from accounts.models import UserApi
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.db.models import Avg
@@ -13,7 +14,7 @@ from .forms import ContactForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import BadHeaderError, EmailMessage
 from django.template.loader import render_to_string
-
+from django.db.models import Q
 
 activate('sk')
 
@@ -35,7 +36,25 @@ def home(request):
     averagereviews = ReviewRating.objects.filter(status=True, parent_id=None).aggregate(average=Avg('rating'))
     if averagereviews['average'] is not None:
         avg = float(averagereviews['average'])
-        # visits on page
+    # visits on page
+    def get_ip(request):
+        address = request.META.get('HTTP_X_FORWARDED_FOR')
+        if address:
+            ip = address.split(',')[-1].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+    ip = get_ip(request)
+    u = UserApi(user=ip)
+    result = UserApi.objects.filter(Q(user__icontains=ip))
+    if len(result)==1:
+        pass
+    elif len(result)>1:
+        pass
+    else:
+        u.save()
+    num_visits = UserApi.objects.all().count()
+
 
 
     context = {
@@ -43,7 +62,7 @@ def home(request):
     'orderproduct': orderproduct,
     'reviews': reviews,
     'avg': avg,
-    # 'num_visits': num_visits,
+    'num_visits': num_visits,
         }
     return render(request, "home.html", context)
 

@@ -83,7 +83,7 @@ def place_order(request, total=0, quantity=0):
     tax = 0
     total = 0
     for cart_item in cart_items:
-        total += (cart_item.product.price * cart_item.quantity)
+        total += "{:.2f}".format(cart_item.product.price * cart_item.quantity)
         quantity += cart_item.quantity
     tax = float("{:.2f}".format((20 * total)/100))
     grand_total = "{:.2f}".format(total + tax)
@@ -168,7 +168,7 @@ def order_complete(request):
 
         subtotal = 0
         for i in ordered_products:
-            subtotal += i.product_price * i.quantity
+            subtotal += "{:.2f}".format(i.product_price * i.quantity)
 
         payment = Payment.objects.get(payment_id=transID)
 
