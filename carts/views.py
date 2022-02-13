@@ -129,7 +129,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
-            total += "{:.2f}".format(cart_item.product.price * cart_item.quantity)
+            total += float("{:.2f}".format(cart_item.product.price * cart_item.quantity))
             quantity += cart_item.quantity
         tax = float("{:.2f}".format((20 * total)/100))
 
