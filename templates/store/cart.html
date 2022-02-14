@@ -12,9 +12,10 @@
 <h2 class="text-center">Váš košík je prázdny</h2>
 <br />
 <div class="text-center">
-	<a href="{%url 'store'%}" class='btn btn-dark'>Pokračovať v nákupe</a>
+	<a href="{% url 'store'%}" class='btn btn-dark'>Pokračovať v nákupe</a>
 	</div>
 {%else%}
+
 <div class="row">
 	<aside class="col-lg-9">
 <div class="card">
@@ -35,6 +36,7 @@
 			<div class="aside"><img src="{{cart_item.product.images.url}}" class="img-sm"></div>
 		</figure>
 	</td>
+
 	<td>
 		<!-- col.// -->
 					<div class="col">
@@ -42,7 +44,7 @@
 							<div class="input-group-prepend">
 							<a href="{% url 'remove_cart' cart_item.product.id %}"class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
 							</div>
-							<input type="text" class="form-control quantity"  name="quantity" value="{{cart_item.quantity}}">
+							<input type="text" class="form-control"  name="quantity" value="{{cart_item.quantity}}">
 							<div class="input-group-append">
 							<a href="{% url 'add_cart' cart_item.product.id %}" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
 							</div>
@@ -53,12 +55,15 @@
 		<div class="price-wrap">
 			<var class="price">€ {{cart_item.sub_total}}</var>
 			<small class="text-muted"> € {{cart_item.product.price}} kus </small>
-		</div> <!-- price-wrap .// -->
-	</td>
+		</div>
+</td>
 	<td class="text-right">
+
 	<a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger">Odstrániť</a>
 	</td>
+
 </tr>
+
 {%endfor%}
 
 </tbody>
@@ -94,7 +99,8 @@
 </aside> <!-- col.// -->
 
 
-</div> <!-- row.// -->
+</div>
+ <!-- row.// -->
 {%endif%}
 <!-- ============================ COMPONENT 1 END .// ================================= -->
 

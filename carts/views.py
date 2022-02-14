@@ -4,7 +4,7 @@ from .models import Cart, CartItem
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-
+from .forms import QuantityForm
 
 
 def _cart_id(request):
@@ -76,22 +76,22 @@ def remove_cart(request, product_id):
     return redirect('cart')
 
 
-# def remove_cart(request, product_id):
 #
+# def specific_qty(request, product_id, quantity):
 #     product = get_object_or_404(Product, id=product_id)
-#
-#     if request.user.is_authenticated:
-#         cart_item = CartItem.objects.get(product=product, user=request.user)
-#     else:
-#         cart = Cart.objects.get(cart_id=_cart_id(request))
-#         cart_item = CartItem.objects.get(product=product, cart=cart,)
-#     if cart_item.quantity > 1:
-#         cart_item.quantity -= 1
-#         cart_item.save()
-#     else:
-#         cart_item.delete()
+#     if request.method == 'POST':
+#         form = QuantityForm(request.POST, instance=request.user)
+#         if form.is_valid():
+#             if request.user.is_authenticated:
+#                 cart_item = CartItem.objects.get(product=product, user=request.user)
+#             else:
+#                 cart = Cart.objects.get(cart_id=_cart_id(request))
+#                 cart_item = CartItem.objects.get(product=product, cart=cart)
+#             cart_item.quantity = form.cleaned_data['quantity']
+#             cart_item.save()
 #
 #     return redirect('cart')
+
 
 
 def remove_cart_item(request, product_id):
@@ -111,6 +111,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
     try:
         tax = 0
         grand_total = 0
+        # form = QuantityForm(request.POST)
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(user=request.user, is_active=True)
         else:
@@ -130,6 +131,8 @@ def cart(request, total=0, quantity=0, cart_items=None):
         'cart_items': cart_items,
         'tax': tax,
         'grand_total': grand_total,
+        # 'form': form,
+
     }
     return render(request, 'store/cart.html', context)
 
