@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'storages',
     'ckeditor',
     'gpwebpay',
+    'awsebcli',
 ]
 
 MIDDLEWARE = [
