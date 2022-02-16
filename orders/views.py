@@ -10,65 +10,68 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
 
+# def payments(request):
+#     body = json.loads(request.body)
+#     order = Order.objects.get(user=request.user, is_ordered=False, order_number=body["orderID"])
+#     # store transaction details
+#     payment = Payment(
+#         user = request.user,
+#         payment_id = body['transID'],
+#         payment_method = body['payment_method'],
+#         amount_paid = order.order_total,
+#         status = body['status']
+#     )
+#     payment.save()
+#
+#     order.payment = payment
+#     order.is_ordered = True
+#     order.save()
+#
+#     #move cart items to Order Product table
+#     cart_items = CartItem.objects.filter(user=request.user)
+#
+#     for item in cart_items:
+#         orderproduct = OrderProduct()
+#         orderproduct.order_id = order.id
+#         orderproduct.payment = payment
+#         orderproduct.user_id = request.user.id
+#         orderproduct.product_id = item.product_id
+#         orderproduct.quantity = item.quantity
+#         orderproduct.product_price = item.product.price
+#         orderproduct.ordered = True
+#         orderproduct.save()
+#
+#     #reduce quantity of sold products
+#         product = Product.objects.get(id=item.product_id)
+#         product.stock -=item.quantity
+#         product.save()
+#     #clear cart
+#     CartItem.objects.filter(user=request.user).delete()
+#
+#     #send order number and transaction id to sendData method
+#
+#
+#
+#
+#     mail_subject = 'thank you for order'
+#     message = render_to_string('orders/order_recieved_email.html', {
+#         'user': request.user,
+#         'order': order,
+#
+#     })
+#     to_email = request.user.email
+#     send_email = EmailMessage(mail_subject, message, to=[to_email])
+#     send_email.send()
+#
+#     data = {
+#         'order_number': order.order_number,
+#         'transID': payment.payment_id,
+#     }
+#     return JsonResponse(data)
+
+
 def payments(request):
-    body = json.loads(request.body)
-    order = Order.objects.get(user=request.user, is_ordered=False, order_number=body["orderID"])
-    # store transaction details
-    payment = Payment(
-        user = request.user,
-        payment_id = body['transID'],
-        payment_method = body['payment_method'],
-        amount_paid = order.order_total,
-        status = body['status']
-    )
-    payment.save()
-
-    order.payment = payment
-    order.is_ordered = True
-    order.save()
-
-    #move cart items to Order Product table
-    cart_items = CartItem.objects.filter(user=request.user)
-
-    for item in cart_items:
-        orderproduct = OrderProduct()
-        orderproduct.order_id = order.id
-        orderproduct.payment = payment
-        orderproduct.user_id = request.user.id
-        orderproduct.product_id = item.product_id
-        orderproduct.quantity = item.quantity
-        orderproduct.product_price = item.product.price
-        orderproduct.ordered = True
-        orderproduct.save()
-
-    #reduce quantity of sold products
-        product = Product.objects.get(id=item.product_id)
-        product.stock -=item.quantity
-        product.save()
-    #clear cart
-    CartItem.objects.filter(user=request.user).delete()
-
-    #send order number and transaction id to sendData method
-
-
-
-
-    mail_subject = 'thank you for order'
-    message = render_to_string('orders/order_recieved_email.html', {
-        'user': request.user,
-        'order': order,
-
-    })
-    to_email = request.user.email
-    send_email = EmailMessage(mail_subject, message, to=[to_email])
-    send_email.send()
-
-    data = {
-        'order_number': order.order_number,
-        'transID': payment.payment_id,
-    }
-    return JsonResponse(data)
-
+    pass
 
 def place_order(request, total=0, quantity=0):
     current_user = request.user
@@ -83,10 +86,10 @@ def place_order(request, total=0, quantity=0):
     tax = 0
     total = 0
     for cart_item in cart_items:
-        total += "{:.2f}".format(cart_item.product.price * cart_item.quantity)
+        total += float("{:.2f}".format(cart_item.product.price * cart_item.quantity))
         quantity += cart_item.quantity
     tax = float("{:.2f}".format((20 * total)/100))
-    grand_total = "{:.2f}".format(total + tax)
+    grand_total = float("{:.2f}".format(total + tax))
 
     if request.method == "POST":
         form = OrderForm(request.POST)
@@ -133,13 +136,16 @@ def place_order(request, total=0, quantity=0):
 
             order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
             shipping = 0
-            if order.shipping_method == "post":
-                shipping = float(5.9)
-            elif order.shipping_method == "courier":
-                shipping = float(6)
+            if order.shipping_method == "Kurier":
+                shipping = float(4)
+            elif order.shipping_method == "Dobierka":
+                shipping = float(5.5)
+                if data.post_country == 'Česká Republika':
+                    shipping += float(2)
             else:
                 shipping = 0
-            grand_total = "{:.2f}".format(total + tax + shipping)
+            grand_total = float("{:.2f}".format(total + tax + shipping))
+            data.shipping_price = shipping
             data.order_total = grand_total
             data.save()
 
@@ -159,6 +165,7 @@ def place_order(request, total=0, quantity=0):
 
 
 def order_complete(request):
+
     order_number = request.GET.get('order_number')
     transID = request.GET.get('payment_id')
 
@@ -168,7 +175,7 @@ def order_complete(request):
 
         subtotal = 0
         for i in ordered_products:
-            subtotal += "{:.2f}".format(i.product_price * i.quantity)
+            subtotal += float("{:.2f}".format(i.product_price * i.quantity))
 
         payment = Payment.objects.get(payment_id=transID)
 
@@ -179,6 +186,91 @@ def order_complete(request):
             'transID': payment.payment_id,
             'payment': payment,
             'subtotal': subtotal,
+            'shipping': order.shipping_price,
+        }
+        return render(request, 'orders/order_complete.html', context)
+    except (Payment.DoesNotExist, Order.DoesNotExist):
+        return redirect('home')
+
+
+def order_complete_dobierka(request, order_num):
+    order = Order.objects.get(user=request.user, is_ordered=False, order_number=order_num)
+    # store transaction details
+    payment = Payment(
+        user = request.user,
+        payment_id = "0",
+        payment_method = "Dobierka",
+        amount_paid = order.order_total,
+        status = "Dobierka"
+    )
+    payment.save()
+
+    order.payment = payment
+    order.is_ordered = True
+    order.save()
+
+    #move cart items to Order Product table
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    for item in cart_items:
+        orderproduct = OrderProduct()
+        orderproduct.order_id = order.id
+        orderproduct.payment = payment
+        orderproduct.user_id = request.user.id
+        orderproduct.product_id = item.product_id
+        orderproduct.quantity = item.quantity
+        orderproduct.product_price = item.product.price
+        orderproduct.ordered = True
+        orderproduct.save()
+
+    #reduce quantity of sold products
+        product = Product.objects.get(id=item.product_id)
+        product.stock -=item.quantity
+        product.save()
+    #clear cart
+    CartItem.objects.filter(user=request.user).delete()
+    #send order number and transaction id to sendData method
+    order = Order.objects.get(is_ordered=True, order_number=order_num)
+    #email to customer
+    mail_subject = 'Ďakujeme za Vašu objednávku'
+    message = render_to_string('orders/order_recieved_email.html', {
+        'user': request.user,
+        'order': order,
+
+    })
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
+
+    #email to shop
+    mail_subject = 'Máte novú objednávku'
+    message = render_to_string('orders/order_recieved_email_to_shop.html', {
+        'order': order,
+
+    })
+    to_email = "objednabky@elele.com"
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
+
+
+
+    try:
+        order = Order.objects.get(order_number=order_num, is_ordered=True)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
+
+        subtotal = 0
+        for i in ordered_products:
+            subtotal += float("{:.2f}".format(i.product_price * i.quantity))
+
+
+        context = {
+            'order': order,
+            'ordered_products': ordered_products,
+            'order_number': order.order_number,
+            'transID': payment.payment_id,
+            'payment': payment,
+            'subtotal': subtotal,
+
         }
         return render(request, 'orders/order_complete.html', context)
     except (Payment.DoesNotExist, Order.DoesNotExist):

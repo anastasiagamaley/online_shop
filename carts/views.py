@@ -58,6 +58,25 @@ def add_cart(request, product_id):
         return redirect('cart')
 # Create your views here.
 
+# def add_cart_amount(request, product_id, amount):
+#
+#     product = get_object_or_404(Product, id=product_id)
+#
+#     if request.user.is_authenticated:
+#         cart_item = CartItem.objects.get(product=product, user=request.user)
+#     else:
+#         cart = Cart.objects.get(cart_id=_cart_id(request))
+#         cart_item = CartItem.objects.get(product=product, cart=cart,)
+#     if amount != 0:
+#         cart_item.quantity = amount
+#         cart_item.save()
+#     else:
+#         pass
+#
+#     return redirect('cart')
+
+
+#
 def remove_cart(request, product_id):
 
     product = get_object_or_404(Product, id=product_id)
@@ -75,22 +94,24 @@ def remove_cart(request, product_id):
 
     return redirect('cart')
 
+def add_cart_amount(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            cart_item = CartItem.objects.get(product=product, user=request.user)
+            form = QuantityForm(request.POST, instance=request.user)
+            if form.is_valid():
+                cart_item.quantity = form.cleaned_data['quantity']
+                cart_item.save()
+        else:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_item = CartItem.objects.get(product=product, cart=cart)
+            form = QuantityForm(request.POST, instance=cart)
+            if form.is_valid():
+                cart_item.quantity = form.cleaned_data['quantity']
+                cart_item.save()
 
-#
-# def specific_qty(request, product_id, quantity):
-#     product = get_object_or_404(Product, id=product_id)
-#     if request.method == 'POST':
-#         form = QuantityForm(request.POST, instance=request.user)
-#         if form.is_valid():
-#             if request.user.is_authenticated:
-#                 cart_item = CartItem.objects.get(product=product, user=request.user)
-#             else:
-#                 cart = Cart.objects.get(cart_id=_cart_id(request))
-#                 cart_item = CartItem.objects.get(product=product, cart=cart)
-#             cart_item.quantity = form.cleaned_data['quantity']
-#             cart_item.save()
-#
-#     return redirect('cart')
+    return redirect('cart')
 
 
 

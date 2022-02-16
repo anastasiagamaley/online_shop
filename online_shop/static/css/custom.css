@@ -72,11 +72,12 @@ ul.thumb li img{
 
 }
 
-.input-spinner input.quantity{
+
+
+input#quantity{
     text-align: center;
-    max-width: 70px;
+    width: 72px;
     font-weight: bold;
-    flex-basis: 46px;
     border-color: #e4e4e4;
     flex-grow: 0;
 }

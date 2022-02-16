@@ -23,7 +23,7 @@
 <thead class="text-muted">
 <tr class="small text-uppercase">
   <th scope="col">Výrobok</th>
-  <th scope="col" width="120">Množstvo</th>
+  <th scope="col" width="150">Množstvo</th>
   <th scope="col" width="120">Cena</th>
   <th scope="col" class="text-right" width="200"> </th>
 </tr>
@@ -36,19 +36,24 @@
 			<div class="aside"><img src="{{cart_item.product.images.url}}" class="img-sm"></div>
 		</figure>
 	</td>
-
+	<form class="" action="{% url 'add_cart_amount' cart_item.product.id  %}" method="POST">
+		{%csrf_token %}
 	<td>
 		<!-- col.// -->
+
 					<div class="col">
 						<div class="input-group input-spinner">
 							<div class="input-group-prepend">
 							<a href="{% url 'remove_cart' cart_item.product.id %}"class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
 							</div>
-							<input type="text" class="form-control"  name="quantity" value="{{cart_item.quantity}}">
+
+							<input type="text" class="form-control" style= "padding:0;" id="quantity" name="quantity" value="{{cart_item.quantity}}">
+
 							<div class="input-group-append">
 							<a href="{% url 'add_cart' cart_item.product.id %}" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
 							</div>
-						</div> <!-- input-group.// -->
+						</div>
+
 					</div> <!-- col.// -->
 	</td>
 	<td>
@@ -58,10 +63,10 @@
 		</div>
 </td>
 	<td class="text-right">
-
-	<a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger">Odstrániť</a>
+	<button type="submit" name="button" class="btn btn-dark btn-sm">Spočítať</button>
+	<a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger btn-sm">Odstrániť</a>
 	</td>
-
+</form>
 </tr>
 
 {%endfor%}

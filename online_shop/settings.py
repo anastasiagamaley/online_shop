@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'storages',
     'ckeditor',
+    'gpwebpay',
 ]
 
 MIDDLEWARE = [

@@ -18,7 +18,7 @@
                         <!-- Start .row -->
                         <div class="col-lg-6">
                             <!-- col-lg-6 start here -->
-                            <div class="invoice-logo"><img src="{% static '/images/logo0.png' %}" alt="Invoice logo" style="max-height: 40px;"></div>
+                            <div class="invoice-logo"><img src="{% static './images/logo0.png' %}" alt="Invoice logo" style="max-height: 40px;"></div>
                         </div>
                         <!-- col-lg-6 end here -->
                         <div class="col-lg-6">
@@ -27,6 +27,9 @@
                                 <ul class="list-unstyled text-right">
                                     <li><strong>Invoiced To</strong></li>
                                     <li>{{order.full_name}}</li>
+                                    <li>{{order.organization}}</li>
+                                    <li>{{order.ico}}</li>
+                                    <li>{{order.dic}}</li>
                                     <li>{{order.address_line_1}} {{order.address_line_2}}</li>
                                     <li>{{order.city}} {{order.post_code}}</li>
                                     <li>{{order.country}} </li>
@@ -39,9 +42,10 @@
                             <div class="invoice-details mt25">
                                 <div class="well">
                                     <ul class="list-unstyled mb0">
-                                        <li><strong>Order</strong> #{{order.order_number}}</li>
-                                        <li><strong>Transaction ID</strong> {{order.payment.payment_id}}</li>
-                                        <li><strong>Order Date:</strong> {{order.created_at}}</li>
+                                        <li><strong>Objednávka</strong> #{{order.order_number}}</li>
+                                        <li><strong>ID Platby</strong> {{order.payment.payment_id}}</li>
+                                        <li><strong>Sposob Platby:</strong> {{order.payment.payment_method}}</li>
+                                        <li><strong>Datum:</strong> {{order.created_at}}</li>
                                         <li><strong>Status:</strong> {{order.payment.status}}</li>
                                     </ul>
                                 </div>
@@ -52,9 +56,9 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th class="per70 text-center">Products</th>
-                                                <th class="per5 text-center">Qty</th>
-                                                <th class="per25 text-center">Total</th>
+                                                <th class="per70 text-center">Product</th>
+                                                <th class="per5 text-center">Množstvo</th>
+                                                <th class="per25 text-center">Cena</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -69,16 +73,19 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="2" class="text-right">Sub Total:</th>
+                                                <th colspan="2" class="text-right">Celkovo:</th>
                                                 <th class="text-center">€{{subtotal}} EUR</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="2" class="text-right">Tax:</th>
+                                                <th colspan="2" class="text-right">DPH:</th>
                                                 <th class="text-center">€{{order.tax}} EUR</th>
                                             </tr>
-
                                             <tr>
-                                                <th colspan="2" class="text-right">Grand Total:</th>
+                                                <th colspan="2" class="text-right">Poštovné:</th>
+                                                <th class="text-center">€{{order.shipping_price}} EUR</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Celkovo s DPH:</th>
                                                 <th class="text-center">€{{order.order_total}} EUR</th>
                                             </tr>
                                         </tfoot>
@@ -86,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="invoice-footer mt25">
-                                <p class="text-center">Thank you for shopping with us!</p>
+                                <p class="text-center">Ďakujeme, že u nás nakupujete!</p>
                             </div>
                         </div>
                         <!-- col-lg-12 end here -->
