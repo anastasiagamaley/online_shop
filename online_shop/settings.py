@@ -223,3 +223,29 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 # mail        IN    CNAME    mail13.hostmaster.sk.
 # webmail        IN    CNAME    mail13.hostmaster.sk.
 # 14:05
+
+
+# [submodule "pyca.cryptography"]
+# 	path = pyca-cryptography
+# 	url = https://github.com/pyca/cryptography.git
+#
+# [submodule "krb5"]
+# 	path = krb5
+# 	url = https://github.com/krb5/krb5
+#
+# [submodule "gost-engine"]
+# 	path = gost-engine
+# 	url = https://github.com/gost-engine/engine
+# 	update = rebase
+# [submodule "wycheproof"]
+# 	path = wycheproof
+# 	url = https://github.com/google/wycheproof
+# [submodule "tlsfuzzer"]
+# 	path = tlsfuzzer
+# 	url = https://github.com/tlsfuzzer/tlsfuzzer
+# [submodule "python-ecdsa"]
+# 	path = python-ecdsa
+# 	url = https://github.com/tlsfuzzer/python-ecdsa
+# [submodule "tlslite-ng"]
+# 	path = tlslite-ng
+# 	url = https://github.com/tlsfuzzer/tlslite-ng
